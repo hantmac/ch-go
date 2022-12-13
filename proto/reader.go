@@ -60,6 +60,9 @@ func (r *Reader) Decode(v Decoder) error {
 
 func (r *Reader) ReadFull(buf []byte) error {
 	if _, err := io.ReadFull(r, buf); err != nil {
+		if err == io.EOF || err == io.ErrUnexpectedEOF {
+			return nil
+		}
 		return errors.Wrap(err, "read")
 	}
 	return nil
